@@ -115,7 +115,7 @@ a{ text-decoration: none;}
 .chat-box-l{float:left; padding:10px; background: #badaf8; max-width:70%; margin:5px 0 5px 2%; border-radius:8px; position: relative;}
 .chat-box-l:after{background:#badaf8; content: ""; position: absolute; left: -4px; top: 16px; width:10px; height: 10px; transform:rotate(45deg);}
 
-span.emotion{ display: block; float:left; margin:10px 0 0 10px; width:50px; height:20px; background:url(images/icon.gif) no-repeat 2px 2px; padding-left:20px; cursor:pointer; font-size: 12px;}
+span.emotion{ display: block; float:left; margin:10px 0 0 10px; width:50px; height:20px; background:url(../images/icon.gif) no-repeat 2px 2px; padding-left:20px; cursor:pointer; font-size: 12px;}
 span.emotion:hover{background-position:2px -28px}
 
 #facebox{width:100%; background: #fff; }

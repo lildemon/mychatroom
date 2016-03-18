@@ -6,11 +6,11 @@
         <meta name="format-detection" content="email=no"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0" name="viewport">
         <title>HR的随机聊天室 QQ452753617</title>
-        <link rel="stylesheet" type="text/css" href="./style2.css" />
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
         <!--[if lt IE 8]><script src="./json3.min.js"></script><![endif]-->
-        <script src="socket.io.js"></script>
+        <script src="js/socket.io.js"></script>
         <script type="text/javascript" src="http://7u2sas.com1.z0.glb.clouddn.com/js/jquery.1.8.3.min.js"></script>
-        <script type="text/javascript" src="jquery.qqFace.js"></script>
+        <script type="text/javascript" src="js/jquery.qqFace.js"></script>
     </head>
     <body>
         <div class="page">
@@ -51,7 +51,7 @@
             $("#content").css("height", c_h +"px")
 
         })
-        var $login = $("#login"),$name = $("#name"),socket,host = location.host ,
+        var $login = $("#login"),$name = $("#name"),socket,host = 'www.miyouzi.online',//location.host ,
             $screen = $("#screen"),$userList = $("#userList"),to,$content = $("#content");
         $login.click(function(){
             var name = $name.val();
