@@ -51,7 +51,7 @@
             $("#content").css("height", c_h +"px")
 
         })
-        var $login = $("#login"),$name = $("#name"),socket,host = 'www.miyouzi.online',//location.host ,
+        var $login = $("#login"),$name = $("#name"),socket,host = location.host ,
             $screen = $("#screen"),$userList = $("#userList"),to,$content = $("#content");
         $login.click(function(){
             var name = $name.val();
