@@ -14,15 +14,15 @@
     </head>
     <body>
         <div class="page">
-            <div class="fullbg" style="display:block">
-                <div class="pop">
-                    <p>请输入你的姓名：</p>
-                    <input type="text" id="name" value="" >
-                    <a href="javascript:;" id="login">确定</a>
-                </div>
-            </div>
             <div class="online">
                 <div class="long" id="screen">
+                    <div class="login">
+                        <div class="getmsg">
+                            <p>请输入你的姓名：</p>
+                            <input type="text" id="name" value="" >
+                            <a href="javascript:;" id="login">确定</a>
+                        </div>
+                    </div>
                     <div class="user">
                         <h3>随机私聊</h3>
                         <p id="ul" class="ab-center">
@@ -51,7 +51,7 @@
             $("#content").css("height", c_h +"px")
 
         })
-        var $login = $("#login"),$name = $("#name"),socket,host = location.host ,
+        var $login = $("#login"),$name = $("#name"),socket,host = 'www.miyouzi.online',// location.host ,
             $screen = $("#screen"),$userList = $("#userList"),to,$content = $("#content");
         $login.click(function(){
             var name = $name.val();
@@ -60,9 +60,9 @@
                 alert("请输入用户名!")
                 return false
             }
+            $screen.animate({"left": "-100%"},800)
             socket = io.connect('ws://'+host);
             socket.emit('newUser',{ user_name : name, user_id : id})
-            $(".fullbg").css("display","none")
             socket.on('onlineCount',function(data){ 
                 var len = data.length
                 if(len > 1){
@@ -75,7 +75,7 @@
                         } 
                         var name = nameList[to]
                         if(to){
-                            $screen.animate({"left": "-100%"},800)
+                            $screen.animate({"left": "-200%"},800)
                             $("#nickname").text("与"+name+"聊天中...")
                             $("#ul").css("display","none")
                         }
