@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="format-detection" content="telephone=no"/>
+        <meta name="format-detection" content="email=no"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0" name="viewport">
+        <title>Miko的随机聊天室 QQ452753617</title>
+        <link rel="stylesheet" type="text/css" href="./style2.css" />
+        <!--[if lt IE 8]><script src="./json3.min.js"></script><![endif]-->
+        <script src="socket.io.js"></script>
+        <script type="text/javascript" src="http://7u2sas.com1.z0.glb.clouddn.com/js/jquery.1.8.3.min.js"></script>
+        <script type="text/javascript" src="jquery.qqFace.js"></script>
+    </head>
+    <body>
+        <div class="page">
+            <div class="fullbg" style="display:block">
+                <div class="pop">
+                    <p>请输入你的姓名：</p>
+                    <input type="text" id="name" value="" >
+                    <a href="javascript:;" id="login">确定</a>
+                </div>
+            </div>
+            <div class="online">
+                <div class="long" id="screen">
+                    <div class="user">
+                        <h3>随机私聊</h3>
+                        <p id="ul" class="ab-center">
+                            
+                        </p>
+                    </div>
+                    <div class="chat">
+                        <a href="javascript:;" class="back">返回</a>
+                        <h3 id="nickname">与战三聊天中...</h3>
+                        <div class="content clearfix" id="content">
+                            
+                        </div>
+                        <div class="text">
+                            <textarea id="msg" name="msg" ></textarea>
+                            <span class="emotion">表情</span>
+                            <a href="javascript:;" class="send" id="send">发送</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+        $(document).ready(function(){
+            var h = window.innerHeight
+            var c_h = h - $("#nickname").height() - $(".text").height() - 40
+            $("#content").css("height", c_h +"px")
+
+        })
+        var $login = $("#login"),$name = $("#name"),socket,host = location.host ,
+            $screen = $("#screen"),$userList = $("#userList"),to,$content = $("#content");
+        $login.click(function(){
+            var name = $name.val();
+            window.id = new Date().getTime()+""+Math.floor(Math.random()*899+100);
+            if(!name){
+                alert("请输入用户名!")
+                return false
+            }
+            socket = io.connect('ws://'+host);
+            socket.emit('newUser',{ user_name : name, user_id : id})
+            $(".fullbg").css("display","none")
+            socket.on('onlineCount',function(data){ 
+                var len = data.length
+                if(len > 1){
+                   $("#ul").html("匹配中，请稍后...") 
+                   socket.on('getChat',function(data,nameList){ //如果广播到用户包含自己，则匹配聊天
+                        if(data.p1 == id){
+                            to = data.p2
+                        }else if(data.p2 == id){
+                            to = data.p1
+                        } 
+                        var name = nameList[to]
+                        if(to){
+                            $screen.animate({"left": "-100%"},800)
+                            $("#nickname").text("与"+name+"聊天中...")
+                            $("#ul").css("display","none")
+                        }
+                   })
+                }else{
+                   $("#ul").html("当前服务器只有您一位空闲用户，请等待其他用户加入<br><br><p style='text-align:center'>开发来自：QQ452753617</p>") 
+                }
+            })
+            socket.on('getMsg',function(data){ // 发送消息
+                var html = $content.html()
+                html += '<div class="clearfix"><p class="chat-box-l">'+replace_em(data.msg)+'</p></div>' 
+                $content.html(html)
+                toBottom()
+            })
+
+            socket.on('offline',function(data){
+                if(to == data.id){
+                    alert("对方用户已退出聊天，刷新或关闭页面将删除所有聊天内容！")
+                    $("#nickname").text("对方已经退出，刷新页面重新匹配")
+                }
+            })
+        })
+
+        $("#send").click(function(){
+            sendMsg();
+        })
+
+        $('#msg').keydown(function(e) {
+        if (e.keyCode === 13) {
+            e.preventDefault();
+            sendMsg();
+            }
+        });
+       
+        $(".back").on('click',function(){
+            $screen.animate({"left": 0},800,function(){
+                location.reload()
+            })
+        })
+
+        function replace_em(str){ // 匹配表情字符
+          str = str.replace(/\</g,'&lt;');
+          str = str.replace(/\>/g,'&gt;');
+          str = str.replace(/\n/g,'<br/>');
+          str = str.replace(/\[em_([0-9]*)\]/g,'<img src="images/face/$1.gif" border="0" />');
+          return str;
+        }
+        $('.emotion').qqFace({
+            id : 'facebox', //表情盒子的ID
+            assign:'msg', //给那个控件赋值
+            path:'images/face/'  //表情存放的路径
+          });
+        function toBottom(){
+            var top = $content[0].scrollHeight
+            $content.scrollTop(top);
+        }
+        function sendMsg(){
+            var msg = $("#msg").val()
+            if($.trim(msg) == ""){  //不能发送空值
+                $("#msg").val("")
+                return false
+            }
+            socket.emit('message',{msg:msg,to:to})
+            var html = $content.html()
+            html += '<div class="clearfix"><p class="chat-box-r">'+replace_em(msg)+'</p></div>' 
+            $content.html(html)
+            $("#msg").val("").blur()
+            toBottom()
+        }
+        </script>
+    </body>
+</html>
