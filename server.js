@@ -40,6 +40,10 @@ io.on('connection', function(socket){
 	socket.on('message',function(data){
 		userServer[data.to].emit('getMsg',{msg:data.msg})
 	})
+	socket.on('sendImg',function(data){
+		userServer[data.to].emit('getImg',{msg:data.msg})
+	})
+
 })
 
 function Arrayremove(array,name){
