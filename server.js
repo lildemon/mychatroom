@@ -38,10 +38,18 @@ io.on('connection', function(socket){
 		io.emit('offline',{id:id})
 	})
 	socket.on('message',function(data){
-		userServer[data.to].emit('getMsg',{msg:data.msg})
+		if(userServer.hasOwnProperty(data.to)){
+			userServer[data.to].emit('getMsg',{msg:data.msg})
+		}else{
+			socket.emit("err",{msg:"对方已经下线或者断开连接"})
+		}
 	})
 	socket.on('sendImg',function(data){
-		userServer[data.to].emit('getImg',{msg:data.msg})
+		if(userServer.hasOwnProperty(data.to)){
+			userServer[data.to].emit('getImg',{msg:data.msg})
+		}else{
+			socket.emit("err",{msg:"对方已经下线或者断开连接"})
+		}
 	})
 
 })

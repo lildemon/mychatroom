@@ -4,7 +4,8 @@
         <meta charset="utf-8">
         <meta name="format-detection" content="telephone=no"/>
         <meta name="format-detection" content="email=no"/>
-<meta content="width=device-width, initial-scale=1.0, maximum-scale=2.0, minimum-scale=1.0, user-scalable=0" name="viewport">
+        <meta content="width=device-width, initial-scale=1.0, maximum-scale=2.0, minimum-scale=1.0, user-scalable=0" name="viewport">
+        <meta http-equiv="cache-control" content="public">
         <title>Miko的随机聊天室 QQ452753617</title>
         <link rel="stylesheet" type="text/css" href="css/style.css" />
         <!--[if lt IE 8]><script src="./json3.min.js"></script><![endif]-->
@@ -110,7 +111,12 @@
                 if(to == data.id){
                     alert("对方用户已退出聊天，刷新或关闭页面将删除所有聊天内容！")
                     $("#nickname").text("对方已经退出，刷新页面重新匹配")
+                    $msg.attr("disabled","disabled")
                 }
+            })
+
+            socket.on('err',function(data){
+                alert(data.msg)
             })
 
         })
