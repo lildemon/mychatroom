@@ -22,6 +22,7 @@
 			var strFace, labFace;
 			if($('#'+id).length<=0){
 				strFace = '<div id="'+id+'" style="position:absolute;width:100%;display:none;z-index:1000;" class="qqFace">' +
+							//'<p class="e-back">x</p>'+
 							  '<table border="0" style="width:100%" cellspacing="0" cellpadding="0"><tr>';
 				for(var i=1; i<=75; i++){
 					labFace = '['+tip+i+']';

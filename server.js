@@ -7,7 +7,9 @@ app.use(express.static('./'))
 var userServer = {};
 var userList = {};
 var freeList = [];
+var count = 0;
 io.on('connection', function(socket){
+	count += 1;
 	socket.on('newUser',function(data){
 		var nickname = data.user_name,
 			user_id = data.user_id;
@@ -16,6 +18,7 @@ io.on('connection', function(socket){
 		userList[user_id] = nickname
 		freeList.push(user_id)
 		io.emit('onlineCount',freeList)
+		io.emit('addCount', count)
 		if(freeList.length > 1){
 			var from = user_id;
 			Arrayremove(freeList,from)
@@ -30,12 +33,14 @@ io.on('connection', function(socket){
 		}
 	})
 	socket.on('disconnect',function(){ //用户注销登陆执行内容
+		count -= 1; 
 		var id = socket.id
 		Arrayremove(freeList,id)
 		delete userServer[id]
 		delete userList[id]
 		io.emit('onlineCount',freeList)
 		io.emit('offline',{id:id})
+		io.emit('addCount', count)
 	})
 	socket.on('message',function(data){
 		if(userServer.hasOwnProperty(data.to)){

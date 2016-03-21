@@ -92,17 +92,17 @@ a{ text-decoration: none;}
 .getmsg input{ width:50%; height:40px; border:none; border-radius: 4px;background: #f0f0f0; text-indent: 12px; font-size: 24px;}
 .getmsg a{ display: block; width:20%; height:30px;border-radius: 4px; color:#fff; line-height: 30px; background: #3BA1D2; margin: 20px auto auto auto; font-size: 18px;}
 
-.online{width:100%;background: #FBFBCF; height:100%; overflow: hidden; position: relative; }
-.online h3{ text-align: center; padding:20px 0; background:rgba(0,0,0,.4);}
+.online{width:100%;background: #E7F3C8; height:100%; overflow: hidden; position: relative; }
+.online h3{ text-align: center; line-height: 50px; background:rgba(0,0,0,.8); color:#fff;}
 
 
 .long{position: absolute; width: 300%; height:100%; overflow: hidden;}
 .login{width:33.33%; height:100%; float: left; position:relative; background: #fff;}
 .user{width:33.33%; height:100%; float:left; position: relative;}
 .chat{width:33.33%; height:100%; float:left; position: relative;}
-.back{position: absolute; left:10px; top: 10px;}
+.back{position: absolute; padding-left:20px; left:10px; top: 0px; color:#fff; line-height: 50px; background:url(../images/back.png) no-repeat; }
 
-.content{ height:400px; background: #fff; overflow-y: scroll; padding:6px;}
+.content{ height:400px; background: #f0f0f0; overflow-y: scroll; padding:6px;}
 .text{ padding-top:10px; height:160px; position: relative;}
 .text textarea{ display: block; width:96%; height:80px; margin: 0 auto auto auto; background: #f0f0f0; border-radius: 4px; padding:2%; }
 .send{ display:block; float:right;  margin-right:2%; margin-top:12px; padding:5px 10px; background: #37A9CC; border-radius: 4px; color:#fff; }

@@ -6,6 +6,8 @@
         <meta name="format-detection" content="email=no"/>
         <meta content="width=device-width, initial-scale=1.0, maximum-scale=2.0, minimum-scale=1.0, user-scalable=0" name="viewport">
         <meta http-equiv="cache-control" content="public">
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
         <title>Miko的随机聊天室 QQ452753617</title>
         <link rel="stylesheet" type="text/css" href="css/style.css" />
         <!--[if lt IE 8]><script src="./json3.min.js"></script><![endif]-->
@@ -25,7 +27,7 @@
                         </div>
                     </div>
                     <div class="user">
-                        <h3>随机私聊</h3>
+                        <h3>随机私聊(<span id="count">0</span>人在线)</h3>
                         <p id="ul" class="ab-center">
                             
                         </p>
@@ -59,7 +61,6 @@
             var h = window.innerHeight
             var c_h = h - $("#nickname").height() - $(".text").height() - 40
             $("#content").css("height", c_h +"px")
-
         })
         var $login = $("#login"),$name = $("#name"),socket,host = location.host,
             $screen = $("#screen"),$userList = $("#userList"),to,$content = $("#content"),$msg = $("#msg");
@@ -91,9 +92,14 @@
                         }
                    })
                 }else{
-                   $("#ul").html("当前服务器只有您一位空闲用户，请等待其他用户加入<br><br><p style='text-align:center'>开发来自：QQ452753617</p>") 
+                   $("#ul").html("当前服务器只有您一位空闲用户，请等待其他用户加入<br><br><p style='text-align:center'>来自：QQ452753617</p>") 
                 }
             })
+
+            socket.on('addCount',function(data){ //在线用户增加
+                $("#count").text(data)
+            })
+
             socket.on('getMsg',function(data){ // 接收消息
                 var html = '<div class="clearfix"><p class="chat-box-l">'+replace_em(data.msg)+'</p></div>' 
                 $content.append(html)
@@ -115,7 +121,7 @@
                 }
             })
 
-            socket.on('err',function(data){
+            socket.on('err',function(data){ // 对面下线后继续发送信息，将报错提示
                 alert(data.msg)
             })
 
@@ -183,11 +189,15 @@
             })
         })
 
+        $content.click(function(){
+            $msg.blur()
+        })
+
         function toBottom(){ // 接收新消息时，聊天框自动滚到最下方
             var top = $content[0].scrollHeight
-            $content.scrollTop(top);
+            $content.scrollTop(top)
         }
-        function sendMsg(type){
+        function sendMsg(type){ // 发送消息函数
             if(type == "msg"){
                 var msg = $("#msg").val()
                 if($.trim(msg) == ""){  //不能发送空值
