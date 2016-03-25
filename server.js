@@ -2,7 +2,13 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-app.use(express.static('./'))
+app.use(express.static('./',{
+	setHeaders: function(res,path,stat){
+		if(res && path.indexOf("images/" > -1)){
+			res.setHeader("Cache-Control","public")
+		}
+	}
+}))
 
 var userServer = {};
 var userList = {};
